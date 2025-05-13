@@ -11,25 +11,34 @@ export function GridCell({
   index,
   hasBlock,
   isHighlighted,
+  isInvalid,
   onDropBlock,
   onHover,
   onLeave,
+  canDropChecker,
 }: {
   index: number;
   hasBlock: boolean;
   isHighlighted: boolean;
+  isInvalid: boolean;
   onDropBlock: (index: number, item: DragItem) => void;
   onHover: (item: DragItem) => void;
   onLeave: () => void;
+  canDropChecker: () => boolean;
 }) {
-  const [{ isOver }, drop] = useDrop<DragItem, void, { isOver: boolean }>(() => ({
-    accept: ItemTypes.BLOCK,
-    drop: (item) => onDropBlock(index, item),
-    hover: (item) => onHover(item),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
+  const [{ isOver, canDrop }, drop] = useDrop<DragItem, void, { isOver: boolean; canDrop: boolean }>(
+    () => ({
+      accept: ItemTypes.BLOCK,
+      drop: (item) => onDropBlock(index, item),
+      hover: (item) => onHover(item),
+      canDrop: () => canDropChecker(),
+      collect: (monitor) => ({
+        isOver: monitor.isOver(),
+        canDrop: monitor.canDrop(),
+      }),
     }),
-  }), [index]);
+    [index, canDropChecker]
+  );
 
   const setRef = useCallback(
     (node: HTMLDivElement | null) => {
@@ -38,18 +47,22 @@ export function GridCell({
     [drop]
   );
 
+  const backgroundColor = isOver && canDrop
+    ? "#cfffcf"
+    : isHighlighted
+    ? "#cfffcf"
+    : isInvalid
+    ? "#ffcfcf"
+    : hasBlock
+    ? "#8af"
+    : undefined;
+
   return (
     <div
       ref={setRef}
       className={styles.cell}
       onMouseLeave={onLeave}
-      style={{
-        backgroundColor: isHighlighted
-          ? "#cfffcf"
-          : hasBlock
-          ? "#8af"
-          : undefined,
-      }}
+      style={{ backgroundColor }}
     />
   );
 }
