@@ -1,0 +1,14 @@
+.cell {
+    width: 64px;
+    height: 64px;
+    background-color: #444;
+    border: 1px solid #666;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: background-color 0.2s;
+  }
+  
+  .cell:hover {
+    background-color: #666;
+    cursor: pointer;
+  }  

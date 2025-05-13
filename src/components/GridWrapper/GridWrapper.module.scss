@@ -1,0 +1,23 @@
+.gridWrapper {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "corner horizontal"
+      "vertical grid";
+    width: fit-content;
+    height: fit-content;
+    gap: 12px;
+  }
+
+  .vertical {
+    grid-area: vertical;
+  }
+  
+  .horizontal {
+    grid-area: horizontal;
+  }
+  
+  .grid {
+    grid-area: grid;
+  }

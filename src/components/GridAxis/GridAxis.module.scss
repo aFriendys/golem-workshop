@@ -1,0 +1,14 @@
+.axis{
+    color: red;
+}
+
+.horizontal, .vertical{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vertical{
+    writing-mode: vertical-rl; /* Поворот текста */
+    transform: rotate(180deg);
+}
